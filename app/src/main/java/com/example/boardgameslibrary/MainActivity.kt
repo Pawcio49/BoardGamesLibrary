@@ -7,14 +7,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.boardgameslibrary.database.GameDBHandler
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val gameDbHandler = GameDBHandler(this, null, null, 1)
         val intent = Intent(this, ConfigurationActivity::class.java)
-        startForResult.launch(intent)
+
+        GlobalScope.launch {
+            if (!gameDbHandler.exist()) {
+                startForResult.launch(intent)
+            }
+        }
     }
 
     private val startForResult = registerForActivityResult(

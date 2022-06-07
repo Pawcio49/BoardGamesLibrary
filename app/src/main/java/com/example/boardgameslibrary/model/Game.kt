@@ -1,4 +1,4 @@
-package com.example.boardgameslibrary
+package com.example.boardgameslibrary.model
 
 class Game {
     var id: Long = 0

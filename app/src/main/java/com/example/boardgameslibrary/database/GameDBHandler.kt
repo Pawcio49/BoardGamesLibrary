@@ -1,13 +1,16 @@
-package com.example.boardgameslibrary
+package com.example.boardgameslibrary.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.boardgameslibrary.dto.GameDto
 
 class GameDBHandler(context: Context, name: String?,
                     factory: SQLiteDatabase.CursorFactory?, version: Int) : SQLiteOpenHelper(context,
-    DATABASE_NAME, factory, DATABASE_VERSION) {
+    DATABASE_NAME, factory, DATABASE_VERSION
+) {
 
     companion object {
         private val DATABASE_VERSION = 1
@@ -24,7 +27,7 @@ class GameDBHandler(context: Context, name: String?,
     override fun onCreate(db: SQLiteDatabase) {
         val CREATE_PRODUCTS_TABLE = ("CREATE TABLE " + TABLE_GAMES +"(" + COLUMN_ID +
                 " INTEGER PRIMARY KEY, " + COLUMN_TITLE + " TEXT, " + COLUMN_ORIGINAL_TITLE +
-                " TEXT, " + COLUMN_PUBLISHMENT_YEAR + " INTEGER, " + COLUMN_CURRENT_RANKING_POSITION+
+                " TEXT, " + COLUMN_PUBLISHMENT_YEAR + " INTEGER, " + COLUMN_CURRENT_RANKING_POSITION +
                 " INTEGER, " + COLUMN_IMAGE + " TEXT" + ")")
         db.execSQL(CREATE_PRODUCTS_TABLE)
     }
@@ -34,24 +37,36 @@ class GameDBHandler(context: Context, name: String?,
         onCreate(db)
     }
 
-    fun addGame(){
+    fun exist(): Boolean{
+        val db = this.writableDatabase
+        if(db == null || !db.isOpen()){
+            return false
+        }
+        val cursor: Cursor = db.rawQuery("SELECT COUNT(*) FROM $TABLE_GAMES", null)
+        var count = 0
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0)
+        }
+        cursor.close()
+        println(count)
+        return count > 0
+    }
+
+    fun addGame(game: GameDto){
         val values = ContentValues()
-        values.put(COLUMN_ID, 1)
-        values.put(COLUMN_TITLE, "abc")
+        values.put(COLUMN_TITLE, "tytul")
+        values.put(COLUMN_ORIGINAL_TITLE, game.title)
+        values.put(COLUMN_PUBLISHMENT_YEAR, game.year)
+        values.put(COLUMN_CURRENT_RANKING_POSITION, 3)
+        values.put(COLUMN_IMAGE, game.image)
+
         val db = this.writableDatabase
         db.insert(TABLE_GAMES, null, values)
         db.close()
     }
 
-//    fun addProduct(product: Product) {
-//        val values = ContentValues()
-//        values.put(COLUMN_PRODUCTNAME, product.productName)
-//        values.put(COLUMN_QUANTITY, product.quantity)
-//        val db = this.writableDatabase
-//        db.insert(TABLE_PRODUCTS, null, values)
-//        db.close()
-//    }
-//
+
+
 //    fun findProduct(productName: String) : Product? {
 //        val query = "SELECT * FROM $TABLE_PRODUCTS WHERE $COLUMN_PRODUCTNAME LIKE \"$productName\""
 //        val db = this.writableDatabase

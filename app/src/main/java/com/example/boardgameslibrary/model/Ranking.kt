@@ -1,4 +1,4 @@
-package com.example.boardgameslibrary
+package com.example.boardgameslibrary.model
 
 import java.sql.Date
 
