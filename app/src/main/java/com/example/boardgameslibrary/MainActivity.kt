@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var synchronizationDate: TextView
     private lateinit var listOfGamesButton: Button
     private lateinit var listOfAdditionsButton: Button
+    private lateinit var synchronizeButton: Button
     private lateinit var clearDataButton: Button
 
     private var user: User? = null
@@ -36,11 +37,11 @@ class MainActivity : AppCompatActivity() {
 
         setListOfAdditionsButton()
         setListOfGamesButton()
-
+        setSynchronizeButton()
         setClearDataButton()
     }
 
-    private val startConfigurationForResult = registerForActivityResult(
+    private val startForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
             val intent = result.data
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ConfigurationActivity::class.java)
 
         if (!gameDbHandler.exist()) {
-            startConfigurationForResult.launch(intent)
+            startForResult.launch(intent)
         } else {
             val userDBHandler = UserDBHandler(this, null, null, 1)
             user = userDBHandler.findUser()
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
             val userDBHandler = UserDBHandler(this, null, null, 1)
             userDBHandler.clearTable()
-
+//TODO: wyczysc dane historii
             finishAffinity()
         }
     }
@@ -114,6 +115,14 @@ class MainActivity : AppCompatActivity() {
         listOfGamesButton.setOnClickListener(){
             val intent = Intent(this, GameListActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun setSynchronizeButton(){
+        synchronizeButton = findViewById(R.id.synchronizeButton)
+        synchronizeButton.setOnClickListener(){
+            val intent = Intent(this, SynchronizationActivity::class.java)
+            startForResult.launch(intent)
         }
     }
 }

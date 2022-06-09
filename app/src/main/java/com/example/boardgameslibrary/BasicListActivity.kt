@@ -13,8 +13,14 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-abstract class BasicListActivity(): AppCompatActivity(){
-    protected fun addField(linearLayout: LinearLayout, text: String, weight: Float){
+abstract class BasicListActivity: AppCompatActivity(){
+    protected lateinit var linearLayout: LinearLayout
+
+    protected fun sort(){
+
+    }
+
+    protected fun addField(text: String, weight: Float){
         val contentParam = LinearLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
             RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -29,7 +35,7 @@ abstract class BasicListActivity(): AppCompatActivity(){
         linearLayout.addView(view)
     }
 
-    protected fun addImage(linearLayout: LinearLayout, imageURL: String, weight: Float){
+    protected fun addImage(imageURL: String, weight: Float){ //TODO: max height Image
         val imageView = ImageView(this)
         var icon: Bitmap? = null
         var isDone = 0
@@ -57,7 +63,7 @@ abstract class BasicListActivity(): AppCompatActivity(){
         linearLayout.addView(imageView)
     }
 
-    protected fun getBitmapFromURL(src: String?): Bitmap? {
+    private fun getBitmapFromURL(src: String?): Bitmap? {
         return try {
             val url = URL(src)
             val connection: HttpURLConnection = url

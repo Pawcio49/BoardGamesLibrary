@@ -24,6 +24,7 @@
         android:layout_width="273dp"
         android:layout_height="57dp"
         android:text="Enter the username from the service boardgamegeek.com"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/personName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

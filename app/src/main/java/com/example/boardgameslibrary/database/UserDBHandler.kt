@@ -26,11 +26,11 @@ class UserDBHandler(context: Context, name: String?,
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        val CREATE_PRODUCTS_TABLE = ("CREATE TABLE " + TABLE_USERS +"(" + COLUMN_ID +
+        val CREATE_TABLE = ("CREATE TABLE " + TABLE_USERS +"(" + COLUMN_ID +
                 " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, "  + COLUMN_GAME_AMOUNT +
                 " INTEGER, " + COLUMN_GAME_ADDITION_AMOUNT +  " INTEGER, " +
                 COLUMN_SYNCHRONIZATION_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" + ")")
-        db.execSQL(CREATE_PRODUCTS_TABLE)
+        db.execSQL(CREATE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

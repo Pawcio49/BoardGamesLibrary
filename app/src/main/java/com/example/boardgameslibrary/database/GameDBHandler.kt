@@ -27,12 +27,12 @@ class GameDBHandler(context: Context, name: String?,
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        val CREATE_PRODUCTS_TABLE = ("CREATE TABLE " + TABLE_GAMES +"(" + COLUMN_ID +
+        val CREATE_TABLE = ("CREATE TABLE " + TABLE_GAMES +"(" + COLUMN_ID +
                 " INTEGER PRIMARY KEY, " + COLUMN_GAME_ID + " INTEGER, " + COLUMN_TITLE +
                 " TEXT, " + COLUMN_ORIGINAL_TITLE +  " TEXT, " + COLUMN_PUBLISHMENT_YEAR +
                 " INTEGER, " + COLUMN_CURRENT_RANKING_POSITION +  " INTEGER, " + COLUMN_IMAGE +
                 " TEXT" + ")")
-        db.execSQL(CREATE_PRODUCTS_TABLE)
+        db.execSQL(CREATE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
