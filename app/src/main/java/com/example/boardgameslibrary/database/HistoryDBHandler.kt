@@ -2,9 +2,12 @@ package com.example.boardgameslibrary.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.boardgameslibrary.dto.GameDto
+import com.example.boardgameslibrary.model.History
+import java.text.SimpleDateFormat
 
 class HistoryDBHandler(
     context: Context, name: String?,
@@ -52,5 +55,38 @@ class HistoryDBHandler(
         val db = this.writableDatabase
         db.insert(TABLE_HISTORY, null, values)
         db.close()
+    }
+
+    fun getHistoryList(id: Long): MutableList<History> {
+        val query = "SELECT * FROM $TABLE_HISTORY WHERE $COLUMN_GAME_ID = $id"
+        val db = this.writableDatabase
+        val cursor = db.rawQuery(query, null)
+        val historyList = mutableListOf<History>()
+
+        if (cursor.moveToFirst()){
+            historyList.add(createHistory(cursor))
+        }
+
+        while(!cursor.isLast){
+            if (cursor.moveToNext()){
+                historyList.add(createHistory(cursor))
+            }
+        }
+
+        cursor.close()
+        db.close()
+        return historyList
+    }
+
+    private fun createHistory(cursor: Cursor): History {
+        val history = History()
+        history.id = cursor.getInt(0)
+        history.gameId = cursor.getLong(1)
+        history.rankingPosition = cursor.getInt(2)
+
+        val synchronizationDate = cursor.getString(3)
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        history.synchronizationDate = formatter.parse(synchronizationDate)
+        return history
     }
 }

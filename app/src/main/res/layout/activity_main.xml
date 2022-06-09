@@ -18,13 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Username:" />
+            android:text="Username:"
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,13 +42,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Number of games:" />
+            android:text="Number of games:"
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/gameAmount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,13 +66,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Number of game additions:" />
+            android:text="Number of game additions:"
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/gameAdditionAmount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,13 +90,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Last synchronization date:" />
+            android:text="Last synchronization date:"
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/synchronizationDate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <Button

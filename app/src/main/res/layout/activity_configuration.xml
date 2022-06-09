@@ -17,19 +17,20 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/personName"
-        app:layout_constraintVertical_bias="0.182" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="273dp"
-        android:layout_height="57dp"
+        android:layout_height="wrap_content"
         android:text="Enter the username from the service boardgamegeek.com"
         android:textAlignment="center"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/personName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.669" />
+        app:layout_constraintVertical_bias="0.691" />
 
     <EditText
         android:id="@+id/personName"
@@ -42,5 +43,21 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.374"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/wait"
+        android:layout_width="198dp"
+        android:layout_height="111dp"
+        android:background="#72B36D"
+        android:text="Wait for synchronization"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/confirm"
+        app:layout_constraintEnd_toEndOf="@+id/confirm"
+        app:layout_constraintStart_toStartOf="@+id/confirm"
+        app:layout_constraintTop_toTopOf="@+id/confirm" />
 </androidx.constraintlayout.widget.ConstraintLayout>

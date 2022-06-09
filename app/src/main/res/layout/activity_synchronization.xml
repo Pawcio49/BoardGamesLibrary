@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:text="Date of the last synchornization:"
+        android:textAlignment="center"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/lastSynchronizationDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -28,17 +30,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastSynchronizationDate"
-        app:layout_constraintVertical_bias="0.239" />
+        app:layout_constraintVertical_bias="0.351" />
 
     <TextView
         android:id="@+id/lastSynchronizationDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Unknown"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.252" />
+        app:layout_constraintVertical_bias="0.298" />
 </androidx.constraintlayout.widget.ConstraintLayout>

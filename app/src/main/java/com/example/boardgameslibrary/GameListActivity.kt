@@ -1,5 +1,6 @@
 package com.example.boardgameslibrary
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
@@ -65,7 +66,7 @@ class GameListActivity : BasicListActivity() {
         linearLayout.layoutParams = rankingParam
         mainLayoutGames.addView(linearLayout)
 
-        addField(game.id.toString(),1.2f)
+        addField(game.id.toString(),1.2f)//TODO: zmien na LP.
 
         addImage(game.image.toString(), 1.0f)
 
@@ -74,6 +75,13 @@ class GameListActivity : BasicListActivity() {
         addField(game.publishmentYear.toString(), 1.15f)
 
         addField(game.currentRankingPosition.toString(), 1.05f)
+
+        linearLayout.setOnClickListener(){
+            val intent = Intent(this, HistoryActivity::class.java)
+            intent.putExtra("id", game.gameId)
+            intent.putExtra("title", game.title)
+            startActivity(intent)
+        }
     }
 
 

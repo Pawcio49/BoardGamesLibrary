@@ -10,10 +10,9 @@ import com.example.boardgameslibrary.database.UserDBHandler
 import com.example.boardgameslibrary.model.User
 import com.example.boardgameslibrary.retrofit.BoardGameGeekApi
 import com.example.boardgameslibrary.retrofit.RetrofitHelper
-import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 
-class SynchronizationActivity : BasicSynchronizationActivity() {
+class SynchronizationActivity : BasicSynchronizationActivity() { //TODO: pasek postepu i spytanie czy na pewno synchronizowac
     private lateinit var lastSynchronizationDate: TextView
     private lateinit var synchronizeDataButton: Button
     private var user: User? = null
