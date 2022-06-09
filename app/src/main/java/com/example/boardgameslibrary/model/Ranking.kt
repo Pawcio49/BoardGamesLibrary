@@ -1,6 +1,6 @@
 package com.example.boardgameslibrary.model
 
-import java.sql.Date
+import java.util.*
 
 class Ranking {
     var id: Int = 0

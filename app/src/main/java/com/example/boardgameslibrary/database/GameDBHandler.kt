@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.boardgameslibrary.dto.GameDto
+import com.example.boardgameslibrary.model.Game
 
 class GameDBHandler(context: Context, name: String?,
                     factory: SQLiteDatabase.CursorFactory?, version: Int) : SQLiteOpenHelper(context,
@@ -17,6 +18,7 @@ class GameDBHandler(context: Context, name: String?,
         private val DATABASE_NAME = "gameDB.db"
         val TABLE_GAMES = "games"
         val COLUMN_ID = "id"
+        val COLUMN_GAME_ID = "game_id"
         val COLUMN_TITLE = "title"
         val COLUMN_ORIGINAL_TITLE = "original_title"
         val COLUMN_PUBLISHMENT_YEAR = "publishment_year"
@@ -26,9 +28,10 @@ class GameDBHandler(context: Context, name: String?,
 
     override fun onCreate(db: SQLiteDatabase) {
         val CREATE_PRODUCTS_TABLE = ("CREATE TABLE " + TABLE_GAMES +"(" + COLUMN_ID +
-                " INTEGER PRIMARY KEY, " + COLUMN_TITLE + " TEXT, " + COLUMN_ORIGINAL_TITLE +
-                " TEXT, " + COLUMN_PUBLISHMENT_YEAR + " INTEGER, " + COLUMN_CURRENT_RANKING_POSITION +
-                " INTEGER, " + COLUMN_IMAGE + " TEXT" + ")")
+                " INTEGER PRIMARY KEY, " + COLUMN_GAME_ID + " INTEGER, " + COLUMN_TITLE +
+                " TEXT, " + COLUMN_ORIGINAL_TITLE +  " TEXT, " + COLUMN_PUBLISHMENT_YEAR +
+                " INTEGER, " + COLUMN_CURRENT_RANKING_POSITION +  " INTEGER, " + COLUMN_IMAGE +
+                " TEXT" + ")")
         db.execSQL(CREATE_PRODUCTS_TABLE)
     }
 
@@ -48,55 +51,83 @@ class GameDBHandler(context: Context, name: String?,
             count = cursor.getInt(0)
         }
         cursor.close()
-        println(count)
         return count > 0
     }
 
-    fun addGame(game: GameDto){
+    fun addGameAndIsAddition(game: GameDto): Boolean {
         val values = ContentValues()
-        values.put(COLUMN_TITLE, "tytul")
-        values.put(COLUMN_ORIGINAL_TITLE, game.title)
-        values.put(COLUMN_PUBLISHMENT_YEAR, game.year)
-        values.put(COLUMN_CURRENT_RANKING_POSITION, 3)
-        values.put(COLUMN_IMAGE, game.image)
+        values.put(COLUMN_GAME_ID, game.objectId)
+        values.put(COLUMN_TITLE, game.title)
+        values.put(COLUMN_ORIGINAL_TITLE, game.originalName)
+        values.put(COLUMN_PUBLISHMENT_YEAR, game.publishmentYear)
+        values.put(COLUMN_IMAGE, game.thumbnail)
 
+        var rankingValue = "0"
+        var isAddition = false
+        for(rank in game.stats!!.rating?.ranks!!){
+            if(rank.type == "subtype" && rank.name == "boardgame"){
+                if(rank.value == "Not Ranked"){
+                    rankingValue = "0"
+                    isAddition = true
+                } else {
+                    rankingValue = rank.value.toString()
+                }
+            }
+        }
+
+        values.put(COLUMN_CURRENT_RANKING_POSITION, rankingValue)
         val db = this.writableDatabase
         db.insert(TABLE_GAMES, null, values)
         db.close()
+
+        return isAddition;
     }
 
+    fun getGames(): MutableList<Game> {
+        val query = "SELECT * FROM $TABLE_GAMES WHERE $COLUMN_CURRENT_RANKING_POSITION NOT LIKE 0"
+        return findGames(query)
+    }
 
+    fun getAdditions(): MutableList<Game> {
+        val query = "SELECT * FROM $TABLE_GAMES WHERE $COLUMN_CURRENT_RANKING_POSITION LIKE 0"
+        return findGames(query)
+    }
 
-//    fun findProduct(productName: String) : Product? {
-//        val query = "SELECT * FROM $TABLE_PRODUCTS WHERE $COLUMN_PRODUCTNAME LIKE \"$productName\""
-//        val db = this.writableDatabase
-//        val cursor = db.rawQuery(query, null)
-//        var product: Product? = null
-//
-//        if (cursor.moveToFirst()){
-//            val id = cursor.getInt(0)
-//            val name = cursor.getString(1)
-//            val quantity = cursor.getInt(2)
-//            product = Product(id, name, quantity)
-//            cursor.close()
-//        }
-//        db.close()
-//        return product
-//    }
-//
-//    fun deleteProduct(productName: String): Boolean {
-//        var result = false
-//        val query = "SELECT * FROM $TABLE_PRODUCTS WHERE $COLUMN_PRODUCTNAME LIKE \"$productName\""
-//
-//        val db = this.writableDatabase
-//        val cursor = db.rawQuery(query, null)
-//        if(cursor.moveToFirst()) {
-//            val id = cursor.getInt(0)
-//            db.delete(TABLE_PRODUCTS, COLUMN_ID + " = ?", arrayOf(id.toString()))
-//            cursor.close()
-//            result = true
-//        }
-//        db.close()
-//        return result
-//    }
+    private fun findGames(query: String): MutableList<Game> {
+        val db = this.writableDatabase
+        val cursor = db.rawQuery(query, null)
+        val games = mutableListOf<Game>()
+
+        if (cursor.moveToFirst()){
+            games.add(createGame(cursor))
+        }
+
+        while(!cursor.isLast){
+            if (cursor.moveToNext()){
+                games.add(createGame(cursor))
+            }
+        }
+
+        cursor.close()
+        db.close()
+        return games
+    }
+
+    private fun createGame(cursor: Cursor): Game {
+        val game = Game()
+        game.id = cursor.getInt(0)
+        game.gameId = cursor.getLong(1)
+        game.title = cursor.getString(2)
+        game.originalTitle = cursor.getString(3)
+        game.publishmentYear = cursor.getInt(4)
+        game.currentRankingPosition = cursor.getInt(5)
+        game.image = cursor.getString(6)
+        return game
+    }
+
+    fun clearTable() {
+        val db = this.writableDatabase
+        db.delete(TABLE_GAMES, null, null)
+        db.close()
+    }
 }
