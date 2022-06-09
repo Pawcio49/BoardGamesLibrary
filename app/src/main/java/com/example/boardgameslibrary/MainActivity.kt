@@ -21,8 +21,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var gameAmount: TextView
     private lateinit var gameAdditionAmount: TextView
     private lateinit var synchronizationDate: TextView
-    private lateinit var clearDataButton: Button
+    private lateinit var listOfGamesButton: Button
     private lateinit var listOfAdditionsButton: Button
+    private lateinit var clearDataButton: Button
 
     private var user: User? = null
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         manageConfiguration()
 
         setListOfAdditionsButton()
+        setListOfGamesButton()
 
         setClearDataButton()
     }
@@ -103,6 +105,14 @@ class MainActivity : AppCompatActivity() {
         listOfAdditionsButton = findViewById(R.id.listOfAdditionsButton)
         listOfAdditionsButton.setOnClickListener(){
             val intent = Intent(this, AdditionActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setListOfGamesButton(){
+        listOfGamesButton = findViewById(R.id.listOfGamesButton)
+        listOfGamesButton.setOnClickListener(){
+            val intent = Intent(this, GameListActivity::class.java)
             startActivity(intent)
         }
     }

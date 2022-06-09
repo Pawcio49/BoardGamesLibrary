@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoardGamesLibrary">
         <activity
+            android:name=".GameListActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdditionActivity"
             android:exported="false" />
         <activity
